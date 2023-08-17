@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    pad: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    background: #c5deea;
+    background: linear-gradient(135deg, #c5deea 0%, #8abbd7 31%, #066dab 100%);
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.selection {
+    margin: 1rem;
+}
+
+.selection button {
+    margin: 1rem;
+    padding: 1.3rem;
+    border-radius: 15px;
+    width: 100px;
+}
+
+.selection button:hover {
+    cursor: pointer;
+    background-color: #8abbd7;
+}
+
+.display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.result {
+    margin: 1rem;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+.score-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    gap: 2rem;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 2rem;
+}

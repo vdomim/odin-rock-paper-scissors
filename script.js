@@ -1,3 +1,26 @@
+const btns = document.querySelectorAll('.selection button')
+const resultDisplay = document.querySelector('.result')
+const scoreLeft = document.querySelector('.score-left')
+const scoreRight = document.querySelector('.score-right')
+const tryAgain = document.querySelector('.restart button')
+
+let score = [0, 0]
+
+function initialiceGame() {
+    resetDisplay()
+    btns.forEach((btn) => {
+        btn.addEventListener('click', handleButtonClicked)
+    })
+    tryAgain.hidden = true
+    resultDisplay.textContent = "Let's Start"
+}
+
+function handleButtonClicked(event) {
+    playRound(event.target.className, getComputerChoice())
+}
+
+tryAgain.addEventListener('click', initialiceGame)
+
 function getComputerChoice() {
     const choice = ['Rock', 'Paper', 'Scissors']
     const random = Math.floor(Math.random() * 3)
@@ -9,96 +32,97 @@ function playRound(playerSelection, computerSelection) {
     switch (playerSelection) {
         case 'rock':
             if (computerSelection === 'Rock') {
-                console.log('Tie')
+                resultDisplay.textContent = 'Tie'
                 result = 0
             }
             if (computerSelection === 'Paper') {
-                console.log('You loose! Paper beats Rock')
+                resultDisplay.textContent = 'You loose! Paper beats Rock'
                 result = -1
             }
             if (computerSelection === 'Scissors') {
-                console.log('You win! Rock beats Scissors')
+                resultDisplay.textContent = 'You win! Rock beats Scissors'
                 result = 1
             }
             break
         case 'paper':
             if (computerSelection === 'Rock') {
-                console.log('You win! Paper beats Rock')
+                resultDisplay.textContent = 'You win! Paper beats Rock'
                 result = 1
             }
             if (computerSelection === 'Paper') {
-                console.log('Tie')
+                resultDisplay.textContent = 'Tie'
                 result = 0
             }
             if (computerSelection === 'Scissors') {
-                console.log('You loose! Scissors beats Paper')
+                resultDisplay.textContent = 'You loose! Scissors beats Paper'
                 result = -1
             }
             break
         case 'scissors':
             if (computerSelection === 'Rock') {
-                console.log('You loose! Rock beats Scissors')
+                resultDisplay.textContent = 'You loose! Rock beats Scissors'
                 result = -1
             }
             if (computerSelection === 'Paper') {
-                console.log('You win! Scissors beats Paper')
+                resultDisplay.textContent = 'You win! Scissors beats Paper'
                 result = 1
             }
             if (computerSelection === 'Scissors') {
-                console.log('Tie')
+                resultDisplay.textContent = 'Tie'
                 result = 0
             }
             break
         default:
-            console.log(
+            resultDisplay.textContent =
                 'Wrong selection. You have to select Rock, Paper or Scissos'
-            )
             result = -1
     }
 
-    return result
+    updateScore(result)
+    evaluateWinner()
 }
 
-function updateScore(score, winner) {
+function updateScore(winner) {
     switch (winner) {
         case 1:
             score[0] = score[0] + 1
-            return score
+            break
         case 0:
-            return score
+            break
         case -1:
             score[1] = score[1] + 1
-            return score
+            break
+    }
+
+    updateDisplay()
+}
+
+function updateDisplay() {
+    scoreLeft.textContent = score[0]
+    scoreRight.textContent = score[1]
+}
+
+function resetDisplay() {
+    score[0] = 0
+    score[1] = 0
+    updateDisplay()
+}
+
+function finishGame() {
+    tryAgain.hidden = false
+    btns.forEach((btn) => {
+        btn.removeEventListener('click', handleButtonClicked)
+    })
+}
+
+function evaluateWinner() {
+    if (score[0] === 5) {
+        resultDisplay.textContent = 'Congrats! You win!!'
+        finishGame()
+    } else if (score[1] === 5) {
+        resultDisplay.textContent = 'Sorry... You loose!!'
+        finishGame()
     }
 }
 
-function evaluateWinner(score) {
-    if (score[0] > score[1]) console.log('Congrats! You win!!')
-    else if (score[0] < score[1]) console.log('Sorry... You loose')
-    else console.log("It's a Tie")
-}
-
-function game() {
-    let score = [0, 0]
-    console.log("Lets's start the Game!!")
-    for (let i = 0; i < 5; i++) {
-        console.log('--------------------------------')
-        console.log('Round nº ' + (i + 1) + '!!')
-        const playerSelection = prompt('Select Rock, Paper or Scissors')
-        console.log('playerSelection:', playerSelection)
-        const computerSelection = getComputerChoice()
-        console.log('computerSelection:', computerSelection)
-        const winner = playRound(
-            playerSelection.toLowerCase(),
-            computerSelection
-        )
-
-        score = updateScore(score, winner)
-        console.log('The actual score is: ', score.toString())
-    }
-
-    console.log('--------------------------------')
-    evaluateWinner(score)
-}
-
-game()
+initialiceGame()
